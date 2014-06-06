@@ -55,7 +55,7 @@ end
 
 def game(players)
 
-  players.each_with_index { |player, index|
+  players.each_with_index do |player, index|
     print "Player #{index} now rolling\n"
     turn_score = 0
     player_score = 0
@@ -63,7 +63,7 @@ def game(players)
 
     #begin initial round
     player.roll(die)
-    if player.score >= 300 #pass min threshold
+    if player.player_final_score >= 300 #pass min threshold
       while(player.score != 0) do
 
         turn_score += player.score
@@ -93,7 +93,7 @@ def game(players)
 
     player.player_final_score += player_score
     print "\nFinal Score for Player #{index}: #{player.player_final_score}\n\n"
-  }
+  end
   print "......End of Round......\n\n"
 end
 
