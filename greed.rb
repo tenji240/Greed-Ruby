@@ -15,7 +15,7 @@ class DiceSet
   def roll(num)
     array = []
     num.times do |n| array.push( 1 + rand(6) ) end
-    print "Rolls: #{array.inspect} -"
+    puts "Rolls: #{array.inspect} -"
     @values = array
   end
 
@@ -45,8 +45,8 @@ class DiceSet
         end
       }
 
-    print "Total Scoring Die: #{total_die}\n"
-    print "Total Non-Scoring Die: #{@values.count - total_die}\n"
+    puts "Total Scoring Die: #{total_die}"
+    puts "Total Non-Scoring Die: #{@values.count - total_die}"
     return @values.count - total_die
   end
 
@@ -56,7 +56,7 @@ end
 def game(players)
 
   players.each_with_index do |player, index|
-    print "Player #{index} now rolling\n"
+    puts "Player #{index} now rolling"
     turn_score = 0
     player_score = 0
     die = 5
@@ -67,9 +67,9 @@ def game(players)
       while(player.score != 0) do
 
         turn_score += player.score
-        print " Round Score: #{player.score}\n"
+        puts " Round Score: #{player.score}"
 
-        print "Would you like to continue (Y-N): "
+        puts "Would you like to continue (Y-N): "
         input = gets.chomp
         input.upcase!
         if input == "N"
@@ -77,7 +77,7 @@ def game(players)
           break
         end
 
-        print "\n\tCurrent Turn Score: #{turn_score}\n"
+        puts "Current Turn Score: #{turn_score}"
         if player.die_remaining == 0
           die = 5
         else
@@ -88,13 +88,13 @@ def game(players)
 
       end
     else
-      print " Round Score: #{player.score}\n"
+      puts " Round Score: #{player.score}"
     end
 
     player.player_final_score += player_score
-    print "\nFinal Score for Player #{index}: #{player.player_final_score}\n\n"
+    puts "Final Score for Player #{index}: #{player.player_final_score}"
   end
-  print "......End of Round......\n\n"
+  puts "......End of Round......"
 end
 
 #for a player to start
@@ -105,20 +105,20 @@ game(players)
 while continue do
   
   players.each_with_index { |player, index| 
-    print "Player #{index} score: #{player.player_final_score}\n"
+    puts "Player #{index} score: #{player.player_final_score}"
     if player.player_final_score >= 3000
       continue = false
       break
     end
   }
-  print "\n"
+  puts ""
   game(players)
 end
 
-print "\n.......Final Round........\n"
+puts ".......Final Round........"
 game(players) #play final round
-print "\n----Final Score---\n"
-players.each_with_index { |player, index| print "Player #{index}: #{player.player_final_score}\n" }
+puts "----Final Score---"
+players.each_with_index { |player, index| puts "Player #{index}: #{player.player_final_score}" }
 
 
 
