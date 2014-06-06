@@ -45,8 +45,7 @@ class DiceSet
         end
       }
 
-    puts "Total Scoring Die: #{total_die}"
-    puts "Total Non-Scoring Die: #{@values.count - total_die}"
+    puts "Die left to roll: #{@values.count - total_die}"
     return @values.count - total_die
   end
 
@@ -56,41 +55,41 @@ end
 def game(players)
 
   players.each_with_index do |player, index|
-    puts "Player #{index} now rolling"
+
+    puts " \nPlayer #{index} now rolling" #setup
     turn_score = 0
     player_score = 0
     die = 5
 
-    #begin initial round
-    player.roll(die)
-    if (player.score >= 300) || (player.player_final_score >= 300) #pass min threshold
-      while(player.score != 0) do
+    player.roll(die)            #roll die
+    turn_score += player.score  #add to turn_score
+    puts "Round Score: #{player.score}"
+    while(player.score != 0) do #once roll is zero leave
+      puts "Current Turn Score: #{turn_score}"
 
-        turn_score += player.score
-        puts "Round Score: #{player.score}"
-
-        puts "Would you like to continue?(Yn): "
-        input = gets.chomp
-        if input.upcase! == "N"
-          puts "Score Added: #{turn_score}"
-          player_score += turn_score
-          break
-        end
-
-        puts "Current Turn Score: #{turn_score}"
-        if player.die_remaining == 0
-          die = 5
-        else
-          die = player.die_remaining
-        end
-
-        player.roll(die)
-
+      puts "Would you like to continue? (Yn)"
+      input = gets.chomp
+      if input.upcase! == "N" #if user says no, get out.
+        break
       end
-    else
-      puts "Round Over :(\n "
+
+      #user had said yes, getting non-scoring die
+      if player.die_remaining == 0
+        die = 5
+      else
+        die = player.die_remaining
+      end
+
+      player.roll(die)
+      puts "Round Score: #{player.score}"
+      turn_score += player.score
     end
-    player.player_final_score += player_score
+    
+    # did the user beat the threshold & not score a low number
+    if (player.score != 0) && (turn_score + player.player_final_score >= 300) 
+      puts "Score Added: #{turn_score}"
+      player.player_final_score += turn_score
+    end
   end
   puts "......End of Round......\n "
 end
