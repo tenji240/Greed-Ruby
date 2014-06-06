@@ -63,7 +63,7 @@ def game(players)
 
     #begin initial round
     player.roll(die)
-    if player.player_final_score >= 300 #pass min threshold
+    if (player.score >= 300) || (player.player_final_score >= 300) #pass min threshold
       while(player.score != 0) do
 
         turn_score += player.score
