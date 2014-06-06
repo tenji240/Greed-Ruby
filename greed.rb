@@ -15,7 +15,7 @@ class DiceSet
   def roll(num)
     array = []
     num.times do |n| array.push( 1 + rand(6) ) end
-    puts "Rolls: #{array.inspect} -"
+    puts "Your Numbers: #{array.inspect}"
     @values = array
   end
 
@@ -45,7 +45,6 @@ class DiceSet
         end
       }
 
-    puts "Die left to roll: #{@values.count - total_die}"
     return @values.count - total_die
   end
 
@@ -56,7 +55,7 @@ def game(players)
 
   players.each_with_index do |player, index|
 
-    puts " \nPlayer #{index} now rolling" #setup
+    puts " \nPlayer #{index+1} now rolling" #setup
     turn_score = 0
     player_score = 0
     die = 5
@@ -67,9 +66,9 @@ def game(players)
     while(player.score != 0) do #once roll is zero leave
       puts "Current Turn Score: #{turn_score}"
 
-      puts "Would you like to continue? (Yn)"
+      puts "Would you like to roll #{player.die_remaining} die? (Yn)"
       input = gets.chomp
-      if input.upcase! == "N" #if user says no, get out.
+      if input.upcase!.start_with?("N") #if user says no, get out.
         break
       end
 
@@ -84,14 +83,14 @@ def game(players)
       puts "Round Score: #{player.score}"
       turn_score += player.score
     end
-    
+
     # did the user beat the threshold & not score a low number
     if (player.score != 0) && (turn_score + player.player_final_score >= 300) 
       puts "Score Added: #{turn_score}"
       player.player_final_score += turn_score
     end
   end
-  puts "......End of Round......\n "
+  puts " \n......End of Round......\n "
 end
 
 #for a player to start
@@ -99,9 +98,9 @@ players = [DiceSet.new, DiceSet.new]
 is_final_round = false
 
 while !is_final_round do
-  
+  puts "Current Standings..."
   players.each_with_index { |player, index| 
-    puts "Player-#{index} score: #{player.player_final_score}"
+    puts "Player-#{index+1} score: #{player.player_final_score}"
     if player.player_final_score >= 3000
       is_final_round = true
       break
@@ -113,7 +112,7 @@ end
 puts ".......Final Round........"
 game(players) #play final round
 puts "----Final Score---"
-players.each_with_index { |player, index| puts "Player-#{index} Final Score: #{player.player_final_score}" }
+players.each_with_index { |player, index| puts "Player-#{index+1} Final Score: #{player.player_final_score}" }
 
 
 
