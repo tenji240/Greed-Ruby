@@ -67,12 +67,12 @@ def game(players)
       while(player.score != 0) do
 
         turn_score += player.score
-        puts " Round Score: #{player.score}"
+        puts "Round Score: #{player.score}"
 
-        puts "Would you like to continue (Y-N): "
+        puts "Would you like to continue?(Yn): "
         input = gets.chomp
-        input.upcase!
-        if input == "N"
+        if input.upcase! == "N"
+          puts "Score Added: #{turn_score}"
           player_score += turn_score
           break
         end
@@ -88,37 +88,33 @@ def game(players)
 
       end
     else
-      puts " Round Score: #{player.score}"
+      puts "Round Over :(\n "
     end
-
     player.player_final_score += player_score
-    puts "Final Score for Player #{index}: #{player.player_final_score}"
   end
-  puts "......End of Round......"
+  puts "......End of Round......\n "
 end
 
 #for a player to start
 players = [DiceSet.new, DiceSet.new]
-continue = true
-game(players)
+is_final_round = false
 
-while continue do
+while !is_final_round do
   
   players.each_with_index { |player, index| 
-    puts "Player #{index} score: #{player.player_final_score}"
+    puts "Player-#{index} score: #{player.player_final_score}"
     if player.player_final_score >= 3000
-      continue = false
+      is_final_round = true
       break
     end
   }
-  puts ""
   game(players)
 end
 
 puts ".......Final Round........"
 game(players) #play final round
 puts "----Final Score---"
-players.each_with_index { |player, index| puts "Player #{index}: #{player.player_final_score}" }
+players.each_with_index { |player, index| puts "Player-#{index} Final Score: #{player.player_final_score}" }
 
 
 
